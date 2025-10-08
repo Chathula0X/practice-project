@@ -31,7 +31,7 @@
 
             <!-- Auth Buttons -->
             <div class="hidden md:flex items-center space-x-3">
-                <a href="{{ route('admin.login') }}" class="text-[#2C3E50] hover:text-[#4ECDC4] hover:bg-[#4ECDC4]/10 px-4 py-2 rounded-lg text-sm font-medium transition duration-200 ease-in-out">
+                <a href="{{ route('login') }}" class="text-[#2C3E50] hover:text-[#4ECDC4] hover:bg-[#4ECDC4]/10 px-4 py-2 rounded-lg text-sm font-medium transition duration-200 ease-in-out">
                     Login
                 </a>
                 <a href="{{ route('register') }}" class="bg-[#FFE66D] hover:bg-[#FFE66D]/90 text-[#1A535C] px-6 py-2 rounded-lg text-sm font-medium transition duration-200 ease-in-out transform hover:scale-105 shadow-md">
@@ -68,7 +68,7 @@
                 Create Student
             </a>
             <div class="border-t border-[#4ECDC4] pt-4 mt-4">
-                <a href="{{ route('admin.login') }}" class="text-[#2C3E50] hover:text-[#4ECDC4] hover:bg-[#4ECDC4]/10 block px-4 py-3 rounded-lg text-base font-medium transition duration-200 ease-in-out">
+                <a href="{{ route('login') }}" class="text-[#2C3E50] hover:text-[#4ECDC4] hover:bg-[#4ECDC4]/10 block px-4 py-3 rounded-lg text-base font-medium transition duration-200 ease-in-out">
                     Login
                 </a>
                 <a href="{{ route('register') }}" class="bg-[#FFE66D] hover:bg-[#FFE66D]/90 text-[#1A535C] block px-4 py-3 rounded-lg text-base font-medium transition duration-200 ease-in-out mt-2 shadow-md">

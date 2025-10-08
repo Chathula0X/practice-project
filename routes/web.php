@@ -3,10 +3,20 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\StudentContoller;
 use Illuminate\Support\Facades\Route;
+use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
+use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 
 Route::get('/', function () {
     return view('home');
 })->name('welcome');
+
+// Fortify Authentication Routes
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
+    Route::post('/login', [AuthenticatedSessionController::class, 'store']);
+    Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
+    Route::post('/register', [RegisteredUserController::class, 'store']);
+});
 
 // Route::get('/student/all', function () {
 //     return view('Student.index');
@@ -35,6 +45,10 @@ Route::middleware(['auth:admins'])->group(function () {
     Route::get('/admin/dashboard', function () {
         return view('dashboard');
     })->name('admin.dashboard');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
 
 Route::middleware([
