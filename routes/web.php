@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\StudentContoller;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 
@@ -58,6 +59,13 @@ Route::middleware(['auth:admins'])->group(function () {
     Route::get('/admin/dashboard', function () {
         return view('dashboard');
     })->name('admin.dashboard');
+    
+    Route::post('/admin/logout', function () {
+        Auth::guard('admins')->logout();
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
+        return redirect()->route('admin.login');
+    })->name('admin.logout');
 });
 
 Route::middleware('auth')->group(function () {
