@@ -6,6 +6,10 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\SupplierController;
+
+
 Route::get('/', function () {
     return view('home');
 })->name('welcome');
@@ -22,6 +26,7 @@ Route::middleware('guest')->group(function () {
 //     return view('Student.index');
 // });
 
+
 Route::group(['prefix' => 'student'], function () {
 
     Route::get('/all', [StudentContoller::class, 'index'])->name('student.index');
@@ -31,6 +36,14 @@ Route::group(['prefix' => 'student'], function () {
     Route::put('/{student_id}', [StudentContoller::class, 'update'])->name('student.update');
     Route::delete('/{student_id}', [StudentContoller::class, 'delete'])->name('student.delete');
 
+});
+
+Route::group(['prefix' => 'client'], function () {
+    Route::get('/all', [ClientController::class, 'index'])->name('client.index');
+});
+
+Route::group(['prefix' => 'supplier'], function () {
+    Route::get('/all', [SupplierController::class, 'index'])->name('supplier.index');
 });
 
 Route::middleware('guest:admins')->group(function () {
