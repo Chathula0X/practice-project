@@ -31,10 +31,10 @@ class LoginResponse implements LoginResponseContract
     {
         // Check if admin is authenticated
         if (Auth::guard('admins')->check()) {
-            return redirect()->to('/admin/dashboard');
+            return redirect()->route('admin.dashboard');
         }
         
         // Default to regular user dashboard
-        return redirect()->to('/dashboard');
+        return redirect()->route('DashboardHome.index');
     }
 }

@@ -6,9 +6,13 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use Laravel\Fortify\Http\Controllers\RegisteredUserController;
-
+use App\Models\Client;
+use App\Models\Supplier;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\ClientControllerc;
+
+
 
 
 Route::get('/', function () {
@@ -39,21 +43,10 @@ Route::group(['prefix' => 'student'], function () {
 
 });
 
-Route::group(['prefix' => 'client'], function () {
-    Route::get('/all', [ClientController::class, 'index'])->name('client.index');
-});
-
-Route::group(['prefix' => 'supplier'], function () {
-    Route::get('/all', [SupplierController::class, 'index'])->name('supplier.index');
-});
-
 Route::middleware('guest:admins')->group(function () {
-
     Route::get('/admin/login', [AdminController::class, 'loginForm'])->name('admin.login');
     Route::post('/admin/login', [AdminController::class, 'store'])->name('admin.login');
-
 });
-
 
 Route::middleware(['auth:admins'])->group(function () {
     Route::get('/admin/DashboardHome', function () {
@@ -66,9 +59,28 @@ Route::middleware(['auth:admins'])->group(function () {
         request()->session()->regenerateToken();
         return redirect()->route('admin.login');
     })->name('admin.logout');
+    
+    // Client routes
+    Route::group(['prefix' => 'client'], function (){
+        Route::get('/all', [ClientControllerc::class, 'index'])->name('client.index');
+        Route::get('/create', [ClientControllerc::class, 'create'])->name('client.create');
+        Route::post('/store', [ClientControllerc::class, 'store'])->name('client.store');
+        Route::get('/{client_id}/edit', [ClientControllerc::class, 'edit'])->name('client.edit');
+        Route::put('/{client_id}', [ClientControllerc::class, 'update'])->name('client.update');
+        Route::delete('/{client_id}', [ClientControllerc::class, 'delete'])->name('client.delete');
+    });
+    
+    // Supplier routes
+    Route::group(['prefix' => 'supplier'], function () {
+        Route::get('/all', [SupplierController::class, 'index'])->name('supplier.index');
+    });
 });
 
 Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('AdminDashboard.DashboardHome.index');
+    })->name('dashboard');
+    
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
 
