@@ -56,8 +56,8 @@ Route::middleware('guest:admins')->group(function () {
 
 
 Route::middleware(['auth:admins'])->group(function () {
-    Route::get('/admin/dashboard', function () {
-        return view('dashboard');
+    Route::get('/admin/DashboardHome', function () {
+        return view('AdminDashboard.DashboardHome.index');
     })->name('admin.dashboard');
     
     Route::post('/admin/logout', function () {
@@ -77,8 +77,8 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/DashboardHome', function () {
+        return view('AdminDashboard.DashboardHome.index');
+    })->name('DashboardHome.index');
 });
 

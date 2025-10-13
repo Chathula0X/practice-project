@@ -7,6 +7,6 @@ use Illuminate\Http\Request;
 class SupplierController extends Controller
 {
     function index(){
-        return view('Supplier.index');
+        return view('AdminDashboard.Supplier.index');
     }
 }
