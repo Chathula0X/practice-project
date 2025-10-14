@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Client;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\StoreClientRequest;
+Use App\Http\Requests\UpdateClientRequest;
 
 class ClientControllerc extends Controller
 {
@@ -17,26 +17,9 @@ class ClientControllerc extends Controller
         return view('AdminDashboard.Client.create');
     }
 
-    public function store(Request $request){
-        $rules =[
-            'name' => 'required|string',
-            'email' => 'required|email',
-            'phone' => 'required|string',
-            'country' => 'required|string',
-        ];
-        
-        $validator = Validator::make($request->all(), $rules);
-
-        if($validator->fails()){
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-        $client = new Client();
-        $client->name = $request->name;
-        $client->email = $request->email;
-        $client->phone = $request->phone;
-        $client->country = $request->country;
-        $client->save();
-
+    public function store(StoreClientRequest $request){
+       
+        $client = Client::create($request->validated());
         return redirect()->route('client.index')->with('success', 'Client created successfully?');
     }
 
@@ -46,25 +29,10 @@ class ClientControllerc extends Controller
     }
      
     
-    public function update(Request $request, $client_id){
-        $rules = [
-            'name' => 'required|string',
-            'email' => 'required|email',
-            'phone' => 'required|string',
-            'country' => 'required|string',
-        ];
-        $validator = Validator::make($request->all(), $rules);
-
-        if($validator->fails()){
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-
-        $client = Client::find($client_id);
-        $client->name = $request->name;
-        $client->email = $request->email;
-        $client->phone = $request->phone;
-        $client->country = $request->country;
-        $client->save();
+    public function update(UpdateClientRequest $request, $client_id){
+      
+        $client = Client::findOrFail($client_id);
+        $client->update($request->validated());
 
         return redirect()->route('client.index')->with('success', 'Client updated successfully');
     }
