@@ -30,14 +30,15 @@ class StoreSupplierRequest extends FormRequest
         ];
     }
 
-    public function messages(): array{
+    public function messages(): array
+    {
         return [
             'name.required' => 'Supplier name is required',
             'type.required' => 'Supplier type is required',
             'type.in' => 'Supplier type must be Hotel, Transport, or Tour Company',
             'email.required' => 'Supplier email is required',
+            'email.email' => 'Please enter a valid email address',
             'location.required' => 'Supplier location is required',
-            'notes.nullable' => 'Supplier notes is optional',
         ];
     }
 }

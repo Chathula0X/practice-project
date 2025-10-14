@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Supplier;
+use App\Http\Requests\StoreSupplierRequest;
+use App\Http\Requests\UpdateSupplierRequest;
+
 
 class SupplierControllers extends Controller
 {
     public function index(){
-        $supplier = Supplier::all();
+        $suppliers = Supplier::all();
         return view('AdminDashboard.Supplier.index', compact('suppliers'));
         
     }
@@ -19,7 +22,7 @@ class SupplierControllers extends Controller
 
     public function store(StoreSupplierRequest $request){
         $supplier = Supplier::create($request->validated());
-        return redirect()->route('AdminDashboard.Supplier.index')->with('success','Supplier created successfully');
+        return redirect()->route('supplier.index')->with('success','Supplier created successfully');
     }
 
     public function edit($supplier_id){
@@ -30,13 +33,13 @@ class SupplierControllers extends Controller
     public function update(UpdateSupplierRequest $request, $supplier_id){
         $supplier = Supplier::where('id', $supplier_id)->first();
         $supplier->update($request->validated());
-        return redirect()->route('AdminDashboard.Supplier.index')->with('success','Supplier updated successfully');
+        return redirect()->route('supplier.index')->with('success','Supplier updated successfully');
     }
 
     public function delete($supplier_id){
         $supplier = Supplier::where('id', $supplier_id)->first();
         $supplier->delete();
-        return redirect()->route('AdminDashboard.Supplier.index')->with('success','Supplier deleted successfully');
+        return redirect()->route('supplier.index')->with('success','Supplier deleted successfully');
 
     }
 }
