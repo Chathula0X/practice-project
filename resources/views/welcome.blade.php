@@ -7,6 +7,9 @@
     <title>StudentP - Welcome</title>
 </head>
 <body class="bg-[#F7FFF7] min-h-screen">
+    <!-- Toast Notification -->
+    <x-toast />
+    
     @include('Navbar.navbar')
     
     <!-- Hero Section -->

@@ -18,7 +18,7 @@ use App\Http\Controllers\InquiryController;
 
 
 Route::get('/', function () {
-    return view('home');
+    return view('welcome');
 })->name('welcome');
 
 // Fortify Authentication Routes
@@ -97,7 +97,7 @@ Route::group(['prefix' => 'inquiry'], function(){
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
-        return view('AdminDashboard.DashboardHome.index');
+        return redirect()->route('welcome');
     })->name('dashboard');
     
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
@@ -109,7 +109,7 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/DashboardHome', function () {
-        return view('AdminDashboard.DashboardHome.index');
+        return redirect()->route('welcome');
     })->name('DashboardHome.index');
 });
 
