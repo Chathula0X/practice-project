@@ -12,6 +12,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\ClientControllerc;
 use App\Http\Controllers\SupplierControllers;
+use App\Http\Controllers\InquiryController;
 
 
 
@@ -81,6 +82,18 @@ Route::middleware(['auth:admins'])->group(function () {
         Route::delete('/{supplier_id}', [SupplierControllers::class, 'delete'])->name('supplier.delete');
     });
 });
+
+//inquiry routes
+Route::group(['prefix' => 'inquiry'], function(){
+    Route::get('/{client_id}', [InquiryController::class, 'index'])->name('inquiry.index');
+    Route::get('/{client_id}/create', [InquiryController::class, 'create'])->name('inquiry.create');
+    Route::post('/{client_id}/store', [InquiryController::class, 'store'])->name('inquiry.store');
+    Route::get('/{inquiry_id}/edit', [InquiryController::class, 'edit'])->name('inquiry.edit');
+    Route::put('/{inquiry_id}', [InquiryController::class, 'update'])->name('inquiry.update');
+    Route::delete('/{inquiry_id}', [InquiryController::class, 'delete'])->name('inquiry.delete');
+});
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {

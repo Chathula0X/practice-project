@@ -67,6 +67,7 @@
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
               <div class="flex gap-2">
+                <a href="{{ route('inquiry.index', $client->id) }}" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 inline-block text-center">Detail</a>
                 <button onclick='openEditModal({{ $client->id }}, "{{ addslashes($client->name) }}", "{{ addslashes($client->email) }}", "{{ addslashes($client->phone) }}", "{{ addslashes($client->nationality) }}", {{ json_encode($client->preferences) }})' class="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600">Edit</button>
                 <form action="{{ route('client.delete', $client->id) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this client?')">
                   @csrf
