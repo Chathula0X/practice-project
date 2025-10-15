@@ -47,7 +47,8 @@
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Country</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nationality</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Preferences</th>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
           </tr>
         </thead>
@@ -58,10 +59,15 @@
             <td class="px-6 py-4 whitespace-nowrap">{{ $client->name }}</td>
             <td class="px-6 py-4 whitespace-nowrap">{{ $client->email }}</td>
             <td class="px-6 py-4 whitespace-nowrap">{{ $client->phone }}</td>
-            <td class="px-6 py-4 whitespace-nowrap">{{ $client->country }}</td>
+            <td class="px-6 py-4 whitespace-nowrap">{{ $client->nationality }}</td>
+            <td class="px-6 py-4">
+              <div class="max-w-xs truncate" title="{{ $client->preferences }}">
+                {{ $client->preferences ?? 'N/A' }}
+              </div>
+            </td>
             <td class="px-6 py-4 whitespace-nowrap">
               <div class="flex gap-2">
-                <button onclick="openEditModal({{ $client->id }}, '{{ addslashes($client->name) }}', '{{ addslashes($client->email) }}', '{{ addslashes($client->phone) }}', '{{ addslashes($client->country) }}')" class="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600">Edit</button>
+                <button onclick='openEditModal({{ $client->id }}, "{{ addslashes($client->name) }}", "{{ addslashes($client->email) }}", "{{ addslashes($client->phone) }}", "{{ addslashes($client->nationality) }}", {{ json_encode($client->preferences) }})' class="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600">Edit</button>
                 <form action="{{ route('client.delete', $client->id) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this client?')">
                   @csrf
                   @method('DELETE')
@@ -99,7 +105,7 @@
     document.body.style.overflow = 'auto'; // Restore background scrolling
   }
 
-  function openEditModal(id, name, email, phone, country) {
+  function openEditModal(id, name, email, phone, nationality, preferences) {
     // Set form action with the client ID
     document.getElementById('editForm').action = `/client/${id}`;
     
@@ -107,7 +113,8 @@
     document.getElementById('edit_name').value = name;
     document.getElementById('edit_email').value = email;
     document.getElementById('edit_phone').value = phone;
-    document.getElementById('edit_country').value = country;
+    document.getElementById('edit_nationality').value = nationality;
+    document.getElementById('edit_preferences').value = preferences || '';
     
     // Open modal
     document.getElementById('editModal').classList.remove('hidden');

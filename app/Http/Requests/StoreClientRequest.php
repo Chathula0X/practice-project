@@ -25,7 +25,8 @@ class StoreClientRequest extends FormRequest
             'name' => 'required|string',
             'email' => 'required|email',
             'phone' => 'required|string',
-            'country' => 'required|string',
+            'nationality' => 'required|string',
+            'preferences' => 'nullable|string',
         ];
     }   
 
@@ -34,7 +35,7 @@ class StoreClientRequest extends FormRequest
             'name.required' => 'Client name is required',
             'email.required' => 'Client email is required',
             'phone.required' => 'Client phone is required',
-            'country.required' => 'Client country is required',
+            'nationality.required' => 'Client nationality is required',
         ];
     }
 }
