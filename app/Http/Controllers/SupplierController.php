@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Supplier;
 
 class SupplierController extends Controller
 {
     function index(){
-        return view('AdminDashboard.Supplier.index');
+        $suppliers = Supplier::all();
+        return view('AdminDashboard.Supplier.index', compact('suppliers'));
     }
 }

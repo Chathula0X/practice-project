@@ -11,6 +11,7 @@ use App\Models\Supplier;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\ClientControllerc;
+use App\Http\Controllers\SupplierControllers;
 
 
 
@@ -72,7 +73,12 @@ Route::middleware(['auth:admins'])->group(function () {
     
     // Supplier routes
     Route::group(['prefix' => 'supplier'], function () {
-        Route::get('/all', [SupplierController::class, 'index'])->name('supplier.index');
+        Route::get('/all', [SupplierControllers::class, 'index'])->name('supplier.index');
+        Route::get('/create', [SupplierControllers::class, 'create'])->name('supplier.create');
+        Route::post('/store', [SupplierControllers::class, 'store'])->name('supplier.store');
+        Route::get('/{supplier_id}/edit', [SupplierControllers::class, 'edit'])->name('supplier.edit');
+        Route::put('/{supplier_id}', [SupplierControllers::class, 'update'])->name('supplier.update');
+        Route::delete('/{supplier_id}', [SupplierControllers::class, 'delete'])->name('supplier.delete');
     });
 });
 
