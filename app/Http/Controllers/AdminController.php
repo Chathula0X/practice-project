@@ -70,6 +70,8 @@ class AdminController extends Controller
         
         if (Auth::guard('admins')->attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
+            $request->session()->flash('success', 'Admin Successfully Logged In!');
+            $request->session()->flash('login_type', 'admin');
             return app(LoginResponse::class);
         }
         

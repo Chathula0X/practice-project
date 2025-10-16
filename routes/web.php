@@ -12,12 +12,13 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\ClientControllerc;
 use App\Http\Controllers\SupplierControllers;
+use App\Http\Controllers\InquiryController;
 
 
 
 
 Route::get('/', function () {
-    return view('home');
+    return view('welcome');
 })->name('welcome');
 
 // Fortify Authentication Routes
@@ -82,9 +83,21 @@ Route::middleware(['auth:admins'])->group(function () {
     });
 });
 
+//inquiry routes
+Route::group(['prefix' => 'inquiry'], function(){
+    Route::get('/{client_id}', [InquiryController::class, 'index'])->name('inquiry.index');
+    Route::get('/{client_id}/create', [InquiryController::class, 'create'])->name('inquiry.create');
+    Route::post('/{client_id}/store', [InquiryController::class, 'store'])->name('inquiry.store');
+    Route::get('/{inquiry_id}/edit', [InquiryController::class, 'edit'])->name('inquiry.edit');
+    Route::put('/{inquiry_id}', [InquiryController::class, 'update'])->name('inquiry.update');
+    Route::delete('/{inquiry_id}', [InquiryController::class, 'delete'])->name('inquiry.delete');
+});
+
+
+
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
-        return view('AdminDashboard.DashboardHome.index');
+        return redirect()->route('welcome');
     })->name('dashboard');
     
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
@@ -96,7 +109,7 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/DashboardHome', function () {
-        return view('AdminDashboard.DashboardHome.index');
+        return redirect()->route('welcome');
     })->name('DashboardHome.index');
 });
 

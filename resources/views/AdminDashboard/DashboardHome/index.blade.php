@@ -9,6 +9,9 @@
 </head>
 <body class="bg-gray-100 font-sans antialiased">
 
+<!-- Toast Notification -->
+<x-toast />
+
 <div class="flex min-h-screen">
   <!-- Sidebar - Fixed -->
   <aside class="w-64 bg-white shadow-md fixed left-0 top-0 h-screen overflow-y-auto">

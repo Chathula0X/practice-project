@@ -9,4 +9,9 @@ class Client extends Model
 {
     use HasFactory;
     protected $fillable = ['name', 'email', 'phone', 'nationality', 'preferences'];
+
+    //relationship with the inquiry
+    public function inquiries(){
+        return $this->hasMany(Inquiry::class);
+    }
 }
