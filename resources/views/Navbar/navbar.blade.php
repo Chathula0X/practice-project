@@ -138,22 +138,23 @@
 </nav>
 
 <!-- JavaScript for mobile menu toggle -->
-<script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const mobileMenuButton = document.querySelector('.mobile-menu-button');
     const mobileMenu = document.querySelector('.mobile-menu');
     
-    mobileMenuButton.addEventListener('click', function() {
-        const isHidden = mobileMenu.classList.contains('hidden');
-        
-        if (isHidden) {
-            mobileMenu.classList.remove('hidden');
-            mobileMenuButton.setAttribute('aria-expanded', 'true');
-        } else {
-            mobileMenu.classList.add('hidden');
-            mobileMenuButton.setAttribute('aria-expanded', 'false');
-        }
-    });
+    if (mobileMenuButton && mobileMenu) {
+        mobileMenuButton.addEventListener('click', function() {
+            const isHidden = mobileMenu.classList.contains('hidden');
+            
+            if (isHidden) {
+                mobileMenu.classList.remove('hidden');
+                mobileMenuButton.setAttribute('aria-expanded', 'true');
+            } else {
+                mobileMenu.classList.add('hidden');
+                mobileMenuButton.setAttribute('aria-expanded', 'false');
+            }
+        });
+    }
 });
 </script>
