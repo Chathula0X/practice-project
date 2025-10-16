@@ -88,10 +88,10 @@
 </div>
 
 <!-- Include Create Modal -->
-@include('AdminDashboard.Client.create')
+@include('admin-dashboard.client.create')
 
 <!-- Include Edit Modal -->
-@include('AdminDashboard.Client.edit')
+@include('admin-dashboard.client.edit')
 
 <script>
   function openModal() {

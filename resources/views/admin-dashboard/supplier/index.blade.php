@@ -88,10 +88,10 @@
 </div>
 
 <!-- Include Create Modal -->
-@include('AdminDashboard.Supplier.create')
+@include('admin-dashboard.Supplier.create')
 
 <!-- Include Edit Modal -->
-@include('AdminDashboard.Supplier.edit')
+@include('admin-dashboard.Supplier.edit')
 
 <script>
   function openModal() {

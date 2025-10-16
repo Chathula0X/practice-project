@@ -13,12 +13,12 @@ class InquiryController extends Controller
 {
     public function index($client_id){
         $client = Client::with('inquiries')->findOrFail($client_id);
-        return view('AdminDashboard.inquiries.index', compact('client'));
+        return view('admin-dashboard.inquiries.index', compact('client'));
     }
 
     public function create($client_id){
         $client = Client::findOrFail($client_id);
-        return view('AdminDashboard.inquiries.create', compact('client'));
+        return view('admin-dashboard.inquiries.create', compact('client'));
     }
 
     public function store(StoreInquiryRequest $request, $client_id){
@@ -28,7 +28,7 @@ class InquiryController extends Controller
 
     public function edit($inquiry_id){
         $inquiry = Inquiry::where('id', $inquiry_id)->first();
-        return view('AdminDashboard.inquiries.edit', compact('inquiry'));
+        return view('admin-dashboard.inquiries.edit', compact('inquiry'));
         }
 
     public function update(UpdateInquiryRequest $request, $inquiry_id){

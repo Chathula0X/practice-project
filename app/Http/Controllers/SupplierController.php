@@ -9,6 +9,6 @@ class SupplierController extends Controller
 {
     function index(){
         $suppliers = Supplier::all();
-        return view('AdminDashboard.Supplier.index', compact('suppliers'));
+        return view('admin-dashboard.supplier.index', compact('suppliers'));
     }
 }

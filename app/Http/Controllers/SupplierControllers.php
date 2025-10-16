@@ -11,12 +11,12 @@ class SupplierControllers extends Controller
 {
     public function index(){
         $suppliers = Supplier::all();
-        return view('AdminDashboard.Supplier.index', compact('suppliers'));
+        return view('admin-dashboard.supplier.index', compact('suppliers'));
         
     }
 
     public function create(){
-        return view('AdminDashboard.Supplier.create');
+        return view('admin-dashboard.supplier.create');
 
     }
 
@@ -27,7 +27,7 @@ class SupplierControllers extends Controller
 
     public function edit($supplier_id){
         $supplier = Supplier::where('id', $supplier_id)->first();
-        return view('AdminDashboard.Supplier.edit', compact('supplier'));
+        return view('admin-dashboard.supplier.edit', compact('supplier'));
     }
 
     public function update(UpdateSupplierRequest $request, $supplier_id){

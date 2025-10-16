@@ -10,11 +10,11 @@ class ClientControllerc extends Controller
 {
     public function index(){
         $clients = Client::all();
-        return view('AdminDashboard.Client.index', compact('clients'));
+        return view('admin-dashboard.client.index', compact('clients'));
     }
 
     public function create(){
-        return view('AdminDashboard.Client.create');
+        return view('admin-dashboard.client.create');
     }
 
     public function store(StoreClientRequest $request){
@@ -25,7 +25,7 @@ class ClientControllerc extends Controller
 
     public function edit($client_id){
         $client = Client::where('id', $client_id)->first();
-        return view('AdminDashboard.Client.edit', compact('client'));
+        return view('admin-dashboard.client.edit', compact('client'));
     }
      
     

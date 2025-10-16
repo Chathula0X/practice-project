@@ -52,7 +52,7 @@ Route::middleware('guest:admins')->group(function () {
 
 Route::middleware(['auth:admins'])->group(function () {
     Route::get('/admin/DashboardHome', function () {
-        return view('AdminDashboard.DashboardHome.index');
+        return view('admin-dashboard.dashboard-home.index');
     })->name('admin.dashboard');
     
     Route::post('/admin/logout', function () {
