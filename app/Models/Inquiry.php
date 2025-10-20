@@ -16,4 +16,9 @@ class Inquiry extends Model
 
         return $this->belongsTo(Client::class);
     }
+
+    public function itineraries(){
+
+        return $this->hasMany(Itinerary::class);
+    }
 }

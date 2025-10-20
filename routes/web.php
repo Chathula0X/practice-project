@@ -13,6 +13,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\ClientControllerc;
 use App\Http\Controllers\SupplierControllers;
 use App\Http\Controllers\InquiryController;
+use App\Http\Controllers\ItineraryController;
 
 
 
@@ -62,6 +63,16 @@ Route::middleware(['auth:admins'])->group(function () {
         return redirect()->route('admin.login');
     })->name('admin.logout');
     
+    // Itinerary routes
+    Route::group(['prefix' => 'itinerary'], function () {
+        Route::get('/{inquiry_id}', [ItineraryController::class, 'index'])->name('itinerary.index');
+        Route::get('/{inquiry_id}/create', [ItineraryController::class, 'create'])->name('itinerary.create');
+        Route::post('/{inquiry_id}/store', [ItineraryController::class, 'store'])->name('itinerary.store');
+        Route::get('/{id}/edit', [ItineraryController::class, 'edit'])->name('itinerary.edit');
+        Route::post('/day/{day_id}/add-item', [ItineraryController::class, 'addItem'])->name('itinerary.add-item');
+        Route::post('/{id}/create-version', [ItineraryController::class, 'createVersion'])->name('itinerary.create-version');
+    });
+
     // Client routes
     Route::group(['prefix' => 'client'], function (){
         Route::get('/all', [ClientControllerc::class, 'index'])->name('client.index');

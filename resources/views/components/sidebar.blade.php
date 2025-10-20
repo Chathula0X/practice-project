@@ -24,6 +24,9 @@
         <a href="{{ route('supplier.index') }}" class="block px-6 py-3 hover:bg-gray-700 transition rounded">
             Suppliers
         </a>
+        <a href="#" onclick="(function(){var id=prompt('Enter Inquiry ID to manage itineraries:'); if(id){ window.location.href='/itinerary/'+id; }})()" class="block px-6 py-3 hover:bg-gray-700 transition rounded">
+            Itineraries
+        </a>
         <a href="#" class="block px-6 py-3 hover:bg-gray-700 transition rounded">
             Settings
         </a>
