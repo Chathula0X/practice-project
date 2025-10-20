@@ -2,11 +2,10 @@
 
 namespace Database\Seeders;
 
-// use App\Models\User;
-
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
 use Illuminate\Database\Seeder;
-use App\Models\Admin;
+use Illuminate\Support\Facades\Hash;
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -14,11 +13,24 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-        Admin::factory()->create();
-        // User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        // Call Admin Seeder
+        $this->call([
+            AdminSeeder::class,
+        ]);
+
+        // Create test user account
+        User::firstOrCreate(
+            ['email' => 'user@gmail.com'],
+            [
+                'name' => 'Test User',
+                'email' => 'user@gmail.com',
+                'password' => Hash::make('password'),
+                'email_verified_at' => now(),
+            ]
+        );
+
+        $this->command->info('Test user account created successfully!');
+        $this->command->info('Email: user@gmail.com');
+        $this->command->info('Password: password');
     }
 }

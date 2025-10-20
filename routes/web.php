@@ -47,7 +47,7 @@ Route::group(['prefix' => 'student'], function () {
 
 Route::middleware('guest:admins')->group(function () {
     Route::get('/admin/login', [AdminController::class, 'loginForm'])->name('admin.login');
-    Route::post('/admin/login', [AdminController::class, 'store'])->name('admin.login');
+    Route::post('/admin/login', [AdminController::class, 'store'])->name('admin.login.store');
 });
 
 Route::middleware(['auth:admins'])->group(function () {
