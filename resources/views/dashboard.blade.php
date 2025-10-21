@@ -9,7 +9,7 @@
 <body class="bg-gray-100 font-sans antialiased">
     <div class="flex min-h-screen">
         <!-- Sidebar -->
-        <x-sidebar />
+        <!-- <x-sidebar /> -->
 
         </div>
     </div>
