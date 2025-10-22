@@ -96,8 +96,14 @@ Route::group(['prefix' => 'inquiry'], function(){
 
 
 Route::middleware('auth')->group(function () {
+    // User dashboard route - matches LoginResponse and RegisterResponse redirects
+    Route::get('/user-dashboard', function () {
+        return view('user-dashboard.user-dashboard');
+    })->name('user-dashboard.index');
+    
+    // Dashboard route for backwards compatibility (tests expect this)
     Route::get('/dashboard', function () {
-        return redirect()->route('welcome');
+        return view('user-dashboard.user-dashboard');
     })->name('dashboard');
     
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');

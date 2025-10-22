@@ -17,7 +17,7 @@ class RegisterResponse implements RegisterResponseContract
     {
         return $request->wantsJson()
             ? response()->json(['two_factor' => false])
-            : redirect()->route('welcome')
+            : redirect()->route('user-dashboard.index')
                 ->with('success', 'Registration Successful! Welcome!')
                 ->with('login_type', 'user');
     }

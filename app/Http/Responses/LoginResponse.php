@@ -37,7 +37,7 @@ class LoginResponse implements LoginResponseContract
         }
         
         // Regular users go to home page
-        return redirect()->route('welcome')
+        return redirect()->route('user-dashboard.index')
             ->with('success', 'User Successfully Logged In!')
             ->with('login_type', 'user');
     }
