@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use App\Http\Middleware\AdminRedirectIfAuthenticated;
+use App\Http\Middleware\Authenticate;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -15,20 +16,11 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'admin:admins' => AdminRedirectIfAuthenticated::class,
+            'auth' => Authenticate::class,
         ]);
         
-        // Customize authentication redirect based on route
-        $middleware->redirectGuestsTo(function ($request) {
-            // Admin routes redirect to admin login
-            if ($request->is('admin/*') || 
-                $request->is('client/*') || 
-                $request->is('supplier/*')) {
-                return route('admin.login');
-            }
-            
-            // All other routes redirect to regular login
-            return route('login');
-        });
+       //default redirect for web guard
+       $middleware->redirectGuestsTo('/login');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
