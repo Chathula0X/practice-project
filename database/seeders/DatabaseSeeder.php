@@ -16,6 +16,10 @@ class DatabaseSeeder extends Seeder
         // Call Admin Seeder
         $this->call([
             AdminSeeder::class,
+            ItinerarySeeder::class,
+            ClientSeeder::class,
+            SupplierSeeder::class,
+            InquirySeeder::class,
         ]);
 
         // Create test user account

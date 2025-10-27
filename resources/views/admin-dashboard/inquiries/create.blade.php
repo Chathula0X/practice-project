@@ -10,16 +10,24 @@
 
 <div class="flex min-h-screen">
   
-  <!-- Sidebar -->
-  <aside class="w-64 bg-white shadow-md">
+  <!-- Fixed Sidebar -->
+  <aside id="sidebar" class="w-64 bg-white shadow-md fixed left-0 top-0 h-screen overflow-y-auto transition-all duration-300 z-40">
     <x-sidebar />
   </aside>
 
   <!-- Main content -->
-  <main class="flex-1 p-8 bg-gray-50">
+  <main id="mainContent" class="ml-64 flex-1 p-8 bg-gray-50 w-full transition-all duration-300">
     <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-lg p-8">
       <div class="flex items-center justify-between mb-6">
-        <h2 class="text-2xl font-bold text-gray-800">Add Inquiry for {{ $client->name }}</h2>
+        <div class="flex items-center gap-4">
+          <!-- Toggle Sidebar Button -->
+          <button onclick="toggleSidebar()" class="p-2 rounded-lg bg-white shadow-md hover:bg-gray-50 transition">
+            <svg id="menuIcon" class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+          <h2 class="text-2xl font-bold text-gray-800">Add Inquiry for {{ $client->name }}</h2>
+        </div>
         <a href="{{ route('inquiry.index', $client->id) }}" 
            class="text-blue-600 hover:underline text-sm font-medium">← Back to Inquiries</a>
       </div>
@@ -112,6 +120,32 @@
     </div>
   </main>
 </div>
+
+<script>
+// Toggle Sidebar Function
+let sidebarVisible = true;
+function toggleSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const mainContent = document.getElementById('mainContent');
+  const menuIcon = document.getElementById('menuIcon');
+  
+  sidebarVisible = !sidebarVisible;
+  
+  if (sidebarVisible) {
+    // Show sidebar
+    sidebar.classList.remove('-translate-x-full');
+    mainContent.classList.remove('ml-0');
+    mainContent.classList.add('ml-64');
+    menuIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>';
+  } else {
+    // Hide sidebar
+    sidebar.classList.add('-translate-x-full');
+    mainContent.classList.remove('ml-64');
+    mainContent.classList.add('ml-0');
+    menuIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>';
+  }
+}
+</script>
 
 </body>
 </html>
