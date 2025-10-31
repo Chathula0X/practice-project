@@ -13,7 +13,11 @@ class Inquiry extends Model
 
     //relationship with the client 
     public function client(){
-
         return $this->belongsTo(Client::class);
+    }
+
+    //relationship with itineraries
+    public function itineraries(){
+        return $this->hasMany(Itinerary::class);
     }
 }

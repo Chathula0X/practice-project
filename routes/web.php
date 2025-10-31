@@ -13,6 +13,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\ClientControllerc;
 use App\Http\Controllers\SupplierControllers;
 use App\Http\Controllers\InquiryController;
+use App\Http\Controllers\ItineraryController;
 
 
 
@@ -91,6 +92,18 @@ Route::group(['prefix' => 'inquiry'], function(){
     Route::get('/{inquiry_id}/edit', [InquiryController::class, 'edit'])->name('inquiry.edit');
     Route::put('/{inquiry_id}', [InquiryController::class, 'update'])->name('inquiry.update');
     Route::delete('/{inquiry_id}', [InquiryController::class, 'delete'])->name('inquiry.delete');
+});
+
+//itinerary routes
+Route::group(['prefix' => 'itinerary'], function(){
+    Route::get('/inquiry/{inquiry_id}', [ItineraryController::class, 'index'])->name('itinerary.index');
+    Route::get('/inquiry/{inquiry_id}/create', [ItineraryController::class, 'create'])->name('itinerary.create');
+    Route::post('/inquiry/{inquiry_id}/store', [ItineraryController::class, 'store'])->name('itinerary.store');
+    Route::get('/{id}/edit', [ItineraryController::class, 'edit'])->name('itinerary.edit');
+    Route::patch('/{id}/status', [ItineraryController::class, 'updateStatus'])->name('itinerary.update-status');
+    Route::get('/{id}', [ItineraryController::class, 'show'])->name('itinerary.show');
+    Route::put('/{id}', [ItineraryController::class, 'update'])->name('itinerary.update');
+    Route::delete('/{id}', [ItineraryController::class, 'delete'])->name('itinerary.delete');
 });
 
 
