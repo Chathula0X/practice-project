@@ -75,6 +75,7 @@
       <form action="{{ route('itinerary.update', $itinerary->id) }}" method="POST" class="space-y-6">
         @csrf
         @method('PUT')
+        <input type="hidden" name="inquiry_id" value="{{ $itinerary->inquiry_id }}">
 
         <!-- Basic Information Section -->
         <div class="bg-white shadow-md rounded-2xl p-6">
@@ -153,57 +154,108 @@
           </div>
         </div>
 
-        <!-- Accommodation Planner Section -->
-        <div class="bg-purple-50 border-l-4 border-purple-500 shadow-md rounded-2xl p-6">
-          <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
-            <svg class="w-6 h-6 mr-2 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
-            </svg>
-            Accommodation Details
-          </h2>
+<!-- Accommodation Planner Section -->
+<div class="bg-purple-50 border-l-4 border-purple-500 shadow-md rounded-2xl p-6">
+  <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+    <svg class="w-6 h-6 mr-2 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
+      <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+    </svg>
+    Accommodation Details (Day by Day)
+  </h2>
+  
+  <p class="text-sm text-gray-600 mb-4">Edit accommodation for each night of the trip</p>
+  
+  <div id="accommodation-container" class="space-y-4">
+    @if($itinerary->accommodation && is_array($itinerary->accommodation) && count($itinerary->accommodation) > 0)
+      @foreach($itinerary->accommodation as $index => $acc)
+      <div class="accommodation-item bg-white p-4 rounded-lg border-2 border-purple-200">
+        <div class="flex justify-between items-center mb-3">
+          <h3 class="font-semibold text-gray-700">Night {{ $loop->iteration }}</h3>
+          <button type="button" onclick="removeAccommodation(this)" class="text-red-500 hover:text-red-700 text-sm {{ $loop->first ? 'hidden' : '' }}">
+            × Remove
+          </button>
+        </div>
+        
+        <input type="hidden" name="accommodation[{{ $index }}][day]" value="{{ $loop->iteration }}">
+        
+        <div class="grid grid-cols-3 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Hotel Name</label>
+            <input type="text" name="accommodation[{{ $index }}][hotel_name]" 
+                   value="{{ old('accommodation.'.$index.'.hotel_name', $acc['hotel_name'] ?? '') }}"
+                   placeholder="e.g., Grand Hyatt"
+                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none">
+          </div>
           
-          <div class="space-y-4">
-            <div>
-              <label for="accommodation_hotel_name" class="block text-sm font-medium text-gray-700 mb-1">Hotel Name</label>
-              <input type="text" id="accommodation_hotel_name" name="accommodation[hotel_name]" 
-                     value="{{ old('accommodation.hotel_name', $itinerary->accommodation['hotel_name'] ?? '') }}" 
-                     placeholder="e.g., Grand Hyatt"
-                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none">
-            </div>
-
-            <div class="grid grid-cols-3 gap-4">
-              <div>
-                <label for="accommodation_room_type" class="block text-sm font-medium text-gray-700 mb-1">Room Type</label>
-                <select id="accommodation_room_type" name="accommodation[room_type]"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none">
-                  <option value="">Select Type</option>
-                  <option value="standard" {{ old('accommodation.room_type', $itinerary->accommodation['room_type'] ?? '') == 'standard' ? 'selected' : '' }}>Standard</option>
-                  <option value="deluxe" {{ old('accommodation.room_type', $itinerary->accommodation['room_type'] ?? '') == 'deluxe' ? 'selected' : '' }}>Deluxe</option>
-                  <option value="suite" {{ old('accommodation.room_type', $itinerary->accommodation['room_type'] ?? '') == 'suite' ? 'selected' : '' }}>Suite</option>
-                  <option value="villa" {{ old('accommodation.room_type', $itinerary->accommodation['room_type'] ?? '') == 'villa' ? 'selected' : '' }}>Villa</option>
-                </select>
-              </div>
-
-              <div>
-                <label for="accommodation_nights" class="block text-sm font-medium text-gray-700 mb-1">Number of Nights</label>
-                <input type="number" id="accommodation_nights" name="accommodation[nights]" 
-                       value="{{ old('accommodation.nights', $itinerary->accommodation['nights'] ?? '') }}" 
-                       min="1" placeholder="0"
-                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none"
-                       oninput="calculateBudget()">
-              </div>
-
-              <div>
-                <label for="accommodation_cost_per_night" class="block text-sm font-medium text-gray-700 mb-1">Cost per Night ($)</label>
-                <input type="number" id="accommodation_cost_per_night" name="accommodation[cost_per_night]" 
-                       value="{{ old('accommodation.cost_per_night', $itinerary->accommodation['cost_per_night'] ?? '') }}" 
-                       step="0.01" min="0" placeholder="0.00"
-                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none"
-                       oninput="calculateBudget()">
-              </div>
-            </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Room Type</label>
+            <select name="accommodation[{{ $index }}][room_type]"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none">
+              <option value="">Select Type</option>
+              <option value="standard" {{ old('accommodation.'.$index.'.room_type', $acc['room_type'] ?? '') == 'standard' ? 'selected' : '' }}>Standard</option>
+              <option value="deluxe" {{ old('accommodation.'.$index.'.room_type', $acc['room_type'] ?? '') == 'deluxe' ? 'selected' : '' }}>Deluxe</option>
+              <option value="suite" {{ old('accommodation.'.$index.'.room_type', $acc['room_type'] ?? '') == 'suite' ? 'selected' : '' }}>Suite</option>
+              <option value="villa" {{ old('accommodation.'.$index.'.room_type', $acc['room_type'] ?? '') == 'villa' ? 'selected' : '' }}>Villa</option>
+            </select>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Cost for this night ($)</label>
+            <input type="number" name="accommodation[{{ $index }}][cost]" 
+                   value="{{ old('accommodation.'.$index.'.cost', $acc['cost'] ?? '') }}"
+                   step="0.01" min="0" placeholder="0.00"
+                   class="accommodation-cost w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                   oninput="calculateBudget()">
           </div>
         </div>
+      </div>
+      @endforeach
+    @else
+      <!-- Show default accommodation item if no data -->
+      <div class="accommodation-item bg-white p-4 rounded-lg border-2 border-purple-200">
+        <div class="flex justify-between items-center mb-3">
+          <h3 class="font-semibold text-gray-700">Night 1</h3>
+        </div>
+        
+        <input type="hidden" name="accommodation[0][day]" value="1">
+        
+        <div class="grid grid-cols-3 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Hotel Name</label>
+            <input type="text" name="accommodation[0][hotel_name]" 
+                   placeholder="e.g., Grand Hyatt"
+                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none">
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Room Type</label>
+            <select name="accommodation[0][room_type]"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none">
+              <option value="">Select Type</option>
+              <option value="standard">Standard</option>
+              <option value="deluxe">Deluxe</option>
+              <option value="suite">Suite</option>
+              <option value="villa">Villa</option>
+            </select>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Cost for this night ($)</label>
+            <input type="number" name="accommodation[0][cost]" 
+                   step="0.01" min="0" placeholder="0.00"
+                   class="accommodation-cost w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                   oninput="calculateBudget()">
+          </div>
+        </div>
+      </div>
+    @endif
+  </div>
+  
+  <button type="button" onclick="addAccommodation()" 
+          class="mt-4 px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition font-medium">
+    + Add Accommodation for Another Night
+  </button>
+</div>
 
         <!-- Transport Details Section -->
         <div class="bg-yellow-50 border-l-4 border-yellow-500 shadow-md rounded-2xl p-6">
@@ -357,7 +409,7 @@
         <!-- Submit Buttons -->
         <div class="flex gap-4">
           <button type="submit" 
-                  class="flex-1 bg-gradient-to-r from-green-600 to-teal-600 text-white py-3 px-6 rounded-xl hover:from-green-700 hover:to-teal-700 transition font-semibold text-lg">
+          class="px-8 py-3 bg-gray-500 text-white rounded-xl hover:bg-gray-600 transition font-medium"">
             Update Itinerary
           </button>
           <a href="{{ route('itinerary.show', $itinerary->id) }}" 
@@ -373,6 +425,59 @@
 
 <script>
 let activityCount = {{ $itinerary->activities ? count($itinerary->activities) : 1 }};
+let accommodationCount = {{ $itinerary->accommodation && is_array($itinerary->accommodation) ? count($itinerary->accommodation) : 1 }};
+
+function addAccommodation() {
+  const container = document.getElementById('accommodation-container');
+  const accommodationItem = document.createElement('div');
+  accommodationItem.className = 'accommodation-item bg-white p-4 rounded-lg border-2 border-purple-200';
+  accommodationItem.innerHTML = `
+    <div class="flex justify-between items-center mb-3">
+      <h3 class="font-semibold text-gray-700">Night ${accommodationCount + 1}</h3>
+      <button type="button" onclick="removeAccommodation(this)" class="text-red-500 hover:text-red-700 text-sm">
+        × Remove
+      </button>
+    </div>
+    
+    <input type="hidden" name="accommodation[${accommodationCount}][day]" value="${accommodationCount + 1}">
+    
+    <div class="grid grid-cols-3 gap-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Hotel Name</label>
+        <input type="text" name="accommodation[${accommodationCount}][hotel_name]" 
+               placeholder="e.g., Hilton Resort"
+               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none">
+      </div>
+      
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Room Type</label>
+        <select name="accommodation[${accommodationCount}][room_type]"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none">
+          <option value="">Select Type</option>
+          <option value="standard">Standard</option>
+          <option value="deluxe">Deluxe</option>
+          <option value="suite">Suite</option>
+          <option value="villa">Villa</option>
+        </select>
+      </div>
+      
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Cost for this night ($)</label>
+        <input type="number" name="accommodation[${accommodationCount}][cost]" 
+               step="0.01" min="0" placeholder="0.00"
+               class="accommodation-cost w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none"
+               oninput="calculateBudget()">
+      </div>
+    </div>
+  `;
+  container.appendChild(accommodationItem);
+  accommodationCount++;
+}
+
+function removeAccommodation(button) {
+  button.closest('.accommodation-item').remove();
+  calculateBudget();
+}
 
 function addActivity() {
   const container = document.getElementById('activities-container');
@@ -398,10 +503,12 @@ function addActivity() {
 }
 
 function calculateBudget() {
-  // Accommodation
-  const nights = parseFloat(document.getElementById('accommodation_nights')?.value) || 0;
-  const costPerNight = parseFloat(document.getElementById('accommodation_cost_per_night')?.value) || 0;
-  const accommodationTotal = nights * costPerNight;
+  // Accommodation - NEW: Calculate from multiple accommodations
+  const accommodationInputs = document.querySelectorAll('input[name^="accommodation"][name$="[cost]"]');
+  let accommodationTotal = 0;
+  accommodationInputs.forEach(input => {
+    accommodationTotal += parseFloat(input.value) || 0;
+  });
   
   // Transport
   const transportCost = parseFloat(document.getElementById('transport_cost')?.value) || 0;

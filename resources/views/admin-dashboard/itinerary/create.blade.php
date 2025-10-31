@@ -129,57 +129,88 @@
           </div>
         </div>
 
-        <!-- Accommodation Planner Section -->
-        <div class="bg-purple-50 border-l-4 border-purple-500 shadow-md rounded-2xl p-6">
-          <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
-            <svg class="w-6 h-6 mr-2 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
-            </svg>
-            Accommodation Details
-          </h2>
-          
-          <div class="space-y-4">
-            <div>
-              <label for="accommodation_hotel_name" class="block text-sm font-medium text-gray-700 mb-1">Hotel Name</label>
-              <input type="text" id="accommodation_hotel_name" name="accommodation[hotel_name]" 
-                     value="{{ old('accommodation.hotel_name') }}" 
-                     placeholder="e.g., Grand Hyatt"
-                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none">
-            </div>
+        <!-- Day-by-Day Timeline Planning Section -->
+<div class="bg-indigo-50 border-l-4 border-indigo-500 shadow-md rounded-2xl p-6">
+  <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+    <svg class="w-6 h-6 mr-2 text-indigo-600" fill="currentColor" viewBox="0 0 20 20">
+      <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
+    </svg>
+    Day-by-Day Activities Plan
+  </h2>
+  
+  <p class="text-sm text-gray-600 mb-4">📅 Select your dates above first, then click "Generate Days" to create day-by-day plan fields</p>
+  
+  <button type="button" onclick="generateDayFields()" 
+          class="mb-4 px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-medium">
+    🔄 Generate Day Fields
+  </button>
+  
+  <div id="timeline-container" class="space-y-4">
+    <!-- Day fields will be generated here -->
+  </div>
+</div>
 
-            <div class="grid grid-cols-3 gap-4">
-              <div>
-                <label for="accommodation_room_type" class="block text-sm font-medium text-gray-700 mb-1">Room Type</label>
-                <select id="accommodation_room_type" name="accommodation[room_type]"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none">
-                  <option value="">Select Type</option>
-                  <option value="standard">Standard</option>
-                  <option value="deluxe">Deluxe</option>
-                  <option value="suite">Suite</option>
-                  <option value="villa">Villa</option>
-                </select>
-              </div>
-
-              <div>
-                <label for="accommodation_nights" class="block text-sm font-medium text-gray-700 mb-1">Number of Nights</label>
-                <input type="number" id="accommodation_nights" name="accommodation[nights]" 
-                       value="{{ old('accommodation.nights') }}" 
-                       min="1" placeholder="0"
-                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none"
-                       oninput="calculateBudget()">
-              </div>
-
-              <div>
-                <label for="accommodation_cost_per_night" class="block text-sm font-medium text-gray-700 mb-1">Cost per Night ($)</label>
-                <input type="number" id="accommodation_cost_per_night" name="accommodation[cost_per_night]" 
-                       value="{{ old('accommodation.cost_per_night') }}" 
-                       step="0.01" min="0" placeholder="0.00"
-                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none"
-                       oninput="calculateBudget()">
-              </div>
-            </div>
-          </div>
+<!-- Accommodation Planner Section -->
+<div class="bg-purple-50 border-l-4 border-purple-500 shadow-md rounded-2xl p-6">
+  <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+    <svg class="w-6 h-6 mr-2 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
+      <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+    </svg>
+    Accommodation Details (Day by Day)
+  </h2>
+  
+  <p class="text-sm text-gray-600 mb-4">Add accommodation for each night of the trip</p>
+  
+  <div id="accommodation-container" class="space-y-4">
+    <!-- Initial accommodation item -->
+    <div class="accommodation-item bg-white p-4 rounded-lg border-2 border-purple-200">
+      <div class="flex justify-between items-center mb-3">
+        <h3 class="font-semibold text-gray-700">Night 1</h3>
+        <button type="button" onclick="removeAccommodation(this)" class="text-red-500 hover:text-red-700 text-sm hidden">
+          × Remove
+        </button>
+      </div>
+      
+      <input type="hidden" name="accommodation[0][day]" value="1">
+      
+      <div class="grid grid-cols-3 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Hotel Name</label>
+          <input type="text" name="accommodation[0][hotel_name]" 
+                 value="{{ old('accommodation.0.hotel_name') }}"
+                 placeholder="e.g., Grand Hyatt"
+                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none">
         </div>
+        
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Room Type</label>
+          <select name="accommodation[0][room_type]"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none">
+            <option value="">Select Type</option>
+            <option value="standard">Standard</option>
+            <option value="deluxe">Deluxe</option>
+            <option value="suite">Suite</option>
+            <option value="villa">Villa</option>
+          </select>
+        </div>
+        
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Cost for this night ($)</label>
+          <input type="number" name="accommodation[0][cost]" 
+                 value="{{ old('accommodation.0.cost') }}"
+                 step="0.01" min="0" placeholder="0.00"
+                 class="accommodation-cost w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                 oninput="calculateBudget()">
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <button type="button" onclick="addAccommodation()" 
+          class="mt-4 px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition font-medium">
+    + Add Accommodation for Another Night
+  </button>
+</div>
 
         <!-- Transport Details Section -->
         <div class="bg-yellow-50 border-l-4 border-yellow-500 shadow-md rounded-2xl p-6">
@@ -327,6 +358,59 @@
 
 <script>
 let activityCount = 1;
+let accommodationCount = 1;
+
+function addAccommodation() {
+  const container = document.getElementById('accommodation-container');
+  const accommodationItem = document.createElement('div');
+  accommodationItem.className = 'accommodation-item bg-white p-4 rounded-lg border-2 border-purple-200';
+  accommodationItem.innerHTML = `
+    <div class="flex justify-between items-center mb-3">
+      <h3 class="font-semibold text-gray-700">Night ${accommodationCount + 1}</h3>
+      <button type="button" onclick="removeAccommodation(this)" class="text-red-500 hover:text-red-700 text-sm">
+        × Remove
+      </button>
+    </div>
+    
+    <input type="hidden" name="accommodation[${accommodationCount}][day]" value="${accommodationCount + 1}">
+    
+    <div class="grid grid-cols-3 gap-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Hotel Name</label>
+        <input type="text" name="accommodation[${accommodationCount}][hotel_name]" 
+               placeholder="e.g., Hilton Resort"
+               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none">
+      </div>
+      
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Room Type</label>
+        <select name="accommodation[${accommodationCount}][room_type]"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none">
+          <option value="">Select Type</option>
+          <option value="standard">Standard</option>
+          <option value="deluxe">Deluxe</option>
+          <option value="suite">Suite</option>
+          <option value="villa">Villa</option>
+        </select>
+      </div>
+      
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Cost for this night ($)</label>
+        <input type="number" name="accommodation[${accommodationCount}][cost]" 
+               step="0.01" min="0" placeholder="0.00"
+               class="accommodation-cost w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none"
+               oninput="calculateBudget()">
+      </div>
+    </div>
+  `;
+  container.appendChild(accommodationItem);
+  accommodationCount++;
+}
+
+function removeAccommodation(button) {
+  button.closest('.accommodation-item').remove();
+  calculateBudget();
+}
 
 function addActivity() {
   const container = document.getElementById('activities-container');
@@ -352,10 +436,12 @@ function addActivity() {
 }
 
 function calculateBudget() {
-  // Accommodation
-  const nights = parseFloat(document.getElementById('accommodation_nights')?.value) || 0;
-  const costPerNight = parseFloat(document.getElementById('accommodation_cost_per_night')?.value) || 0;
-  const accommodationTotal = nights * costPerNight;
+  // Accommodation - NEW: Calculate from multiple accommodations
+  const accommodationInputs = document.querySelectorAll('input[name^="accommodation"][name$="[cost]"]');
+  let accommodationTotal = 0;
+  accommodationInputs.forEach(input => {
+    accommodationTotal += parseFloat(input.value) || 0;
+  });
   
   // Transport
   const transportCost = parseFloat(document.getElementById('transport_cost')?.value) || 0;
@@ -405,6 +491,86 @@ function toggleSidebar() {
     menuIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>';
   }
 }
+
+function generateDayFields() {
+  const startDate = document.getElementById('start_date').value;
+  const endDate = document.getElementById('end_date').value;
+  
+  if (!startDate || !endDate) {
+    alert('Please select start and end dates first!');
+    return;
+  }
+  
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  
+  if (start > end) {
+    alert('Start date must be before end date!');
+    return;
+  }
+  
+  const container = document.getElementById('timeline-container');
+  container.innerHTML = ''; // Clear existing
+  
+  let dayNumber = 1;
+  let currentDate = new Date(start);
+  
+  while (currentDate <= end) {
+    const dateString = currentDate.toISOString().split('T')[0];
+    const formattedDate = currentDate.toLocaleDateString('en-US', { 
+      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
+    });
+    
+    const dayField = document.createElement('div');
+    dayField.className = 'bg-white p-5 rounded-xl border-2 border-indigo-200 shadow-sm';
+    dayField.innerHTML = `
+      <div class="flex items-center justify-between mb-3">
+        <div>
+          <h3 class="font-bold text-lg text-gray-800">Day ${dayNumber}</h3>
+          <p class="text-sm text-gray-500">${formattedDate}</p>
+        </div>
+        <span class="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm font-semibold">
+          ${dateString}
+        </span>
+      </div>
+      
+      <input type="hidden" name="timeline[${dayNumber - 1}][day]" value="${dayNumber}">
+      <input type="hidden" name="timeline[${dayNumber - 1}][date]" value="${dateString}">
+      
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          📝 Activities & Plans for this day:
+        </label>
+        <textarea name="timeline[${dayNumber - 1}][activities]" 
+                  rows="3"
+                  placeholder="e.g., Morning: Airport pickup and hotel check-in&#10;Afternoon: Beach visit and relaxation&#10;Evening: Welcome dinner at seafood restaurant"
+                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none resize-none"
+        ></textarea>
+      </div>
+    `;
+    
+    container.appendChild(dayField);
+    
+    currentDate.setDate(currentDate.getDate() + 1);
+    dayNumber++;
+  }
+  
+  // Scroll to the timeline section
+  container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// Auto-generate if dates are already set (useful for edit page)
+document.addEventListener('DOMContentLoaded', function() {
+  const startDate = document.getElementById('start_date').value;
+  const endDate = document.getElementById('end_date').value;
+  
+  if (startDate && endDate) {
+    // Small delay to ensure everything is loaded
+    setTimeout(() => {
+      generateDayFields();
+    }, 500);
+  }
+});
 </script>
 
 </body>

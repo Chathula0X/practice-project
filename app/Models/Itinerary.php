@@ -52,30 +52,32 @@ class Itinerary extends Model
     }
 
     // Helper method to calculate totals
-    public function calculateTotals()
-    {
-        // Accommodation
-        if ($this->accommodation) {
-            $nights = $this->accommodation['nights'] ?? 0;
-            $costPerNight = $this->accommodation['cost_per_night'] ?? 0;
-            $this->accommodation_total = $nights * $costPerNight;
+public function calculateTotals()
+{
+    // Accommodation - NEW: Sum costs from array of accommodations
+    $accommodationSum = 0;
+    if ($this->accommodation && is_array($this->accommodation)) {
+        foreach ($this->accommodation as $acc) {
+            $accommodationSum += $acc['cost'] ?? 0;
         }
-
-        // Transport
-        if ($this->transport) {
-            $this->transport_total = $this->transport['cost'] ?? 0;
-        }
-
-        // Activities
-        $activitiesSum = 0;
-        if ($this->activities && is_array($this->activities)) {
-            foreach ($this->activities as $activity) {
-                $activitiesSum += $activity['cost'] ?? 0;
-            }
-        }
-        $this->activities_total = $activitiesSum;
-
-        // Grand total
-        $this->total_cost = $this->accommodation_total + $this->transport_total + $this->activities_total;
     }
+    $this->accommodation_total = $accommodationSum;
+
+    // Transport
+    if ($this->transport) {
+        $this->transport_total = $this->transport['cost'] ?? 0;
+    }
+
+    // Activities
+    $activitiesSum = 0;
+    if ($this->activities && is_array($this->activities)) {
+        foreach ($this->activities as $activity) {
+            $activitiesSum += $activity['cost'] ?? 0;
+        }
+    }
+    $this->activities_total = $activitiesSum;
+
+    // Grand total
+    $this->total_cost = $this->accommodation_total + $this->transport_total + $this->activities_total;
+}
 }

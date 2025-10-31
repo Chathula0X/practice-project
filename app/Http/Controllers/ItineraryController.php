@@ -45,6 +45,7 @@ class ItineraryController extends Controller
             'accommodation' => $request->input('accommodation'),
             'transport' => $request->input('transport'),
             'activities' => array_values($filteredActivities),
+            'timeline' => $request->input('timeline', []), 
             'notes' => $request->notes,
             'status' => 'draft',
         ]);
@@ -83,6 +84,7 @@ class ItineraryController extends Controller
             'accommodation' => $request->input('accommodation') ?? $itinerary->accommodation,
             'transport' => $request->input('transport') ?? $itinerary->transport,
             'activities' => !empty($filteredActivities) ? array_values($filteredActivities) : $itinerary->activities,
+            'timeline' => $request->input('timeline') ?? $itinerary->timeline,
             'notes' => $request->notes ?? $itinerary->notes,
             'status' => $request->status ?? $itinerary->status,
         ]);

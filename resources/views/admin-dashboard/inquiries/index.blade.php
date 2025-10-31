@@ -27,7 +27,7 @@
       </button>
       <div>
         <h1 class="text-3xl font-bold text-gray-800">
-          Inquiries for {{ $client->name }}
+        Travel Requests from {{ $client->name }}
         </h1>
       </div>
     </div>
@@ -57,13 +57,13 @@
         </div>
 
         <!-- New Inquiry Button -->
-        <button onclick="openCreateModal()" 
+        <a href="{{ route('inquiry.create', $client->id) }}" 
            class="px-6 py-2.5 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition font-semibold shadow-lg flex items-center gap-2">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
           </svg>
-          New Inquiry
-        </button>
+          New Request
+        </a>
       </div>
     </div>
 
@@ -134,65 +134,6 @@
   </main>
 </div>
 
-<!-- Create Inquiry Modal -->
-<div id="createModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-  <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-    <div class="bg-blue-600 px-6 py-4 flex justify-between items-center rounded-t-2xl">
-      <h2 class="text-2xl font-bold text-white">Add New Inquiry</h2>
-      <button onclick="closeCreateModal()" class="text-white hover:text-gray-200 text-3xl font-bold">&times;</button>
-    </div>
-    
-    <form action="{{ route('inquiry.store', $client->id) }}" method="POST" class="p-6 space-y-4">
-      @csrf
-      
-      <div>
-        <label for="create_destination" class="block text-sm font-medium text-gray-700 mb-1">Destination</label>
-        <input type="text" id="create_destination" name="destination" required
-               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-               placeholder="Enter destination">
-      </div>
-
-      <div class="grid grid-cols-2 gap-4">
-        <div>
-          <label for="create_start_date" class="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
-          <input type="date" id="create_start_date" name="start_date" required
-                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
-        </div>
-        <div>
-          <label for="create_end_date" class="block text-sm font-medium text-gray-700 mb-1">End Date</label>
-          <input type="date" id="create_end_date" name="end_date" required
-                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
-        </div>
-      </div>
-
-      <div>
-        <label for="create_budget" class="block text-sm font-medium text-gray-700 mb-1">Budget</label>
-        <input type="number" id="create_budget" name="budget" step="0.01"
-               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-               placeholder="Enter budget">
-      </div>
-
-      <div>
-        <label for="create_note" class="block text-sm font-medium text-gray-700 mb-1">Notes</label>
-        <textarea id="create_note" name="note" rows="3"
-                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  placeholder="Enter any additional notes"></textarea>
-      </div>
-
-      <div class="flex gap-3 pt-4">
-        <button type="submit"
-                class="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition font-medium">
-          Add Inquiry
-        </button>
-        <button type="button" onclick="closeCreateModal()"
-                class="flex-1 bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600 transition font-medium">
-          Cancel
-        </button>
-      </div>
-    </form>
-  </div>
-</div>
-
 <script>
 // Toggle Sidebar Function
 let sidebarVisible = true;
@@ -215,22 +156,6 @@ function toggleSidebar() {
     menuIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>';
   }
 }
-
-// Create Modal Functions
-function openCreateModal() {
-  document.getElementById('createModal').classList.remove('hidden');
-  document.body.style.overflow = 'hidden';
-}
-function closeCreateModal() {
-  document.getElementById('createModal').classList.add('hidden');
-  document.body.style.overflow = 'auto';
-  document.querySelector('#createModal form').reset();
-}
-
-// Close modal when clicking outside
-document.getElementById('createModal')?.addEventListener('click', function(e) {
-  if (e.target === this) closeCreateModal();
-});
 
 // Search functionality
 function searchTable() {

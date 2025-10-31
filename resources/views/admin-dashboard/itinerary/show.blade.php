@@ -53,33 +53,58 @@
       @endif
 
       <!-- Overview Cards -->
-      <div class="grid grid-cols-4 gap-6 mb-6">
-        <div class="bg-gradient-to-br from-blue-500 to-blue-600 p-6 rounded-2xl shadow-lg text-white">
-          <p class="text-blue-100 text-sm">Duration</p>
-          <p class="text-3xl font-bold mt-2">{{ $itinerary->getDurationInDays() }}</p>
-          <p class="text-blue-100 text-sm">days</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <!-- Duration Card -->
+        <div class="bg-white border-2 border-blue-200 p-6 rounded-xl shadow-md hover:shadow-lg transition">
+          <div class="flex items-center justify-between mb-3">
+            <svg class="w-10 h-10 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+          <p class="text-sm font-medium text-gray-600 uppercase tracking-wide">Duration</p>
+          <p class="text-4xl font-bold text-blue-600 mt-2">{{ $itinerary->getDurationInDays() }}</p>
+          <p class="text-sm text-gray-500 mt-1">days</p>
         </div>
 
-        <div class="bg-gradient-to-br from-green-500 to-green-600 p-6 rounded-2xl shadow-lg text-white">
-          <p class="text-green-100 text-sm">Total Cost</p>
-          <p class="text-3xl font-bold mt-2">${{ number_format($itinerary->total_cost, 0) }}</p>
-          <p class="text-green-100 text-sm">USD</p>
+        <!-- Total Cost Card -->
+        <div class="bg-white border-2 border-green-200 p-6 rounded-xl shadow-md hover:shadow-lg transition">
+          <div class="flex items-center justify-between mb-3">
+            <svg class="w-10 h-10 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"/>
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+          <p class="text-sm font-medium text-gray-600 uppercase tracking-wide">Total Cost</p>
+          <p class="text-4xl font-bold text-green-600 mt-2">${{ number_format($itinerary->total_cost, 0) }}</p>
+          <p class="text-sm text-gray-500 mt-1">USD</p>
         </div>
 
-        <div class="bg-gradient-to-br from-purple-500 to-purple-600 p-6 rounded-2xl shadow-lg text-white">
-          <p class="text-purple-100 text-sm">Client</p>
-          <p class="text-xl font-bold mt-2">{{ $itinerary->inquiry->client->name }}</p>
-          <p class="text-purple-100 text-sm">{{ $itinerary->inquiry->client->email }}</p>
+        <!-- Client Card -->
+        <div class="bg-white border-2 border-purple-200 p-6 rounded-xl shadow-md hover:shadow-lg transition">
+          <div class="flex items-center justify-between mb-3">
+            <svg class="w-10 h-10 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+          <p class="text-sm font-medium text-gray-600 uppercase tracking-wide">Client</p>
+          <p class="text-lg font-bold text-gray-800 mt-2 truncate">{{ $itinerary->inquiry->client->name }}</p>
+          <p class="text-sm text-gray-500 mt-1 truncate">{{ $itinerary->inquiry->client->email }}</p>
         </div>
 
-        <div class="bg-gradient-to-br from-orange-500 to-orange-600 p-6 rounded-2xl shadow-lg text-white">
-          <p class="text-orange-100 text-sm">Status</p>
-          <p class="text-2xl font-bold mt-2">{{ ucfirst($itinerary->status) }}</p>
-          <form action="{{ route('itinerary.update-status', $itinerary->id) }}" method="POST" class="mt-2">
+        <!-- Status Card -->
+        <div class="bg-white border-2 border-orange-200 p-6 rounded-xl shadow-md hover:shadow-lg transition">
+          <div class="flex items-center justify-between mb-3">
+            <svg class="w-10 h-10 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+          <p class="text-sm font-medium text-gray-600 uppercase tracking-wide">Status</p>
+          <p class="text-2xl font-bold text-gray-800 mt-2">{{ ucfirst($itinerary->status) }}</p>
+          <form action="{{ route('itinerary.update-status', $itinerary->id) }}" method="POST" class="mt-3">
             @csrf
             @method('PATCH')
             <select name="status" onchange="this.form.submit()" 
-                    class="w-full text-sm px-2 py-1 rounded bg-orange-400 text-white border-none">
+                    class="w-full text-sm px-3 py-2 rounded-lg border-2 border-orange-300 text-gray-800 bg-white hover:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-500 cursor-pointer">
               <option value="draft" {{ $itinerary->status == 'draft' ? 'selected' : '' }}>Draft</option>
               <option value="pending" {{ $itinerary->status == 'pending' ? 'selected' : '' }}>Pending</option>
               <option value="approved" {{ $itinerary->status == 'approved' ? 'selected' : '' }}>Approved</option>
@@ -130,42 +155,43 @@
       <div class="grid grid-cols-2 gap-6 mb-6">
         
         <!-- Accommodation Details -->
-        @if($itinerary->accommodation && !empty(array_filter($itinerary->accommodation)))
-        <div class="bg-white shadow-md rounded-2xl p-6">
-          <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
-            <svg class="w-5 h-5 mr-2 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
-            </svg>
-            Accommodation
-          </h3>
-          <div class="space-y-3">
-            @if(isset($itinerary->accommodation['hotel_name']))
-            <div>
-              <p class="text-sm text-gray-600">Hotel</p>
-              <p class="font-semibold text-gray-800">{{ $itinerary->accommodation['hotel_name'] }}</p>
-            </div>
-            @endif
-            @if(isset($itinerary->accommodation['room_type']))
-            <div>
-              <p class="text-sm text-gray-600">Room Type</p>
-              <p class="font-semibold text-gray-800">{{ ucfirst($itinerary->accommodation['room_type']) }}</p>
-            </div>
-            @endif
-            @if(isset($itinerary->accommodation['nights']))
-            <div>
-              <p class="text-sm text-gray-600">Nights</p>
-              <p class="font-semibold text-gray-800">{{ $itinerary->accommodation['nights'] }} nights</p>
-            </div>
-            @endif
-            @if(isset($itinerary->accommodation['cost_per_night']))
-            <div>
-              <p class="text-sm text-gray-600">Cost per Night</p>
-              <p class="font-semibold text-gray-800">${{ number_format($itinerary->accommodation['cost_per_night'], 2) }}</p>
-            </div>
-            @endif
-          </div>
+@if($itinerary->accommodation && is_array($itinerary->accommodation) && count($itinerary->accommodation) > 0)
+<div class="bg-white shadow-md rounded-2xl p-6 col-span-2">
+  <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+    <svg class="w-5 h-5 mr-2 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
+      <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+    </svg>
+    Accommodation ({{ count($itinerary->accommodation) }} {{ count($itinerary->accommodation) > 1 ? 'nights' : 'night' }})
+  </h3>
+  
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    @foreach($itinerary->accommodation as $index => $acc)
+    <div class="bg-purple-50 p-4 rounded-lg border-l-4 border-purple-500">
+      <div class="flex justify-between items-center mb-2">
+        <h4 class="font-bold text-gray-800">🌙 Night {{ $loop->iteration }}</h4>
+        <span class="text-lg font-bold text-purple-600">${{ number_format($acc['cost'] ?? 0, 2) }}</span>
+      </div>
+      
+      <div class="space-y-2 text-sm">
+        @if(isset($acc['hotel_name']) && $acc['hotel_name'])
+        <div>
+          <p class="text-gray-600">Hotel</p>
+          <p class="font-semibold text-gray-800">🏨 {{ $acc['hotel_name'] }}</p>
         </div>
         @endif
+        
+        @if(isset($acc['room_type']) && $acc['room_type'])
+        <div>
+          <p class="text-gray-600">Room Type</p>
+          <p class="font-semibold text-gray-800">{{ ucfirst($acc['room_type']) }}</p>
+        </div>
+        @endif
+      </div>
+    </div>
+    @endforeach
+  </div>
+</div>
+@endif
 
         <!-- Transport Details -->
         @if($itinerary->transport && !empty(array_filter($itinerary->transport)))
@@ -222,7 +248,7 @@
             @if(!empty($activity['name']) || !empty($activity['cost']))
             <div class="flex items-start">
               <div class="flex-shrink-0 w-10 h-10 bg-pink-500 text-white rounded-full flex items-center justify-center font-bold">
-                {{ $index + 1 }}
+                {{ $loop->iteration }}
               </div>
               <div class="ml-4 flex-1 bg-pink-50 p-4 rounded-lg">
                 <div class="flex justify-between items-start">
@@ -241,86 +267,124 @@
       </div>
       @endif
 
-      <!-- Timeline View (Day by Day) -->
-      <div class="bg-white shadow-md rounded-2xl p-6 mb-6">
-        <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
-          <svg class="w-5 h-5 mr-2 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
-          </svg>
-          Day-by-Day Timeline
-        </h3>
+  <!-- Timeline View (Day by Day) - MANUAL VERSION -->
+<div class="bg-white shadow-lg rounded-2xl p-6 mb-8">
+  <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3">
+    <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+      <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
+    </svg>
+    Day-by-Day Timeline
+  </h3>
 
-        <div class="relative border-l-4 border-blue-500 pl-6 space-y-6">
-          @php
-            $currentDate = $itinerary->start_date->copy();
-            $dayNumber = 1;
-          @endphp
+  @if($itinerary->timeline && count($itinerary->timeline) > 0)
+    <div class="relative border-l-4 border-blue-500 pl-8 space-y-8">
+      @foreach($itinerary->timeline as $day)
+        <div class="relative group">
+          <!-- Timeline Dot -->
+          <div class="absolute -left-9 w-6 h-6 bg-blue-500 rounded-full border-4 border-white shadow-lg transition-transform duration-300 group-hover:scale-110"></div>
           
-          @while($currentDate->lte($itinerary->end_date))
-            <div class="relative">
-              <div class="absolute -left-9 w-6 h-6 bg-blue-500 rounded-full border-4 border-white"></div>
-              <div class="bg-blue-50 p-4 rounded-lg">
-                <div class="flex justify-between items-center mb-2">
-                  <h4 class="font-bold text-gray-800">Day {{ $dayNumber }}</h4>
-                  <span class="text-sm text-gray-600">{{ $currentDate->format('l, M d, Y') }}</span>
-                </div>
-                
-                <div class="space-y-2 text-sm text-gray-700">
-                  @if($dayNumber == 1)
-                    <p>✈️ Arrival in {{ $itinerary->destination }}</p>
-                    @if($itinerary->accommodation && isset($itinerary->accommodation['hotel_name']))
-                    <p>🏨 Check-in at {{ $itinerary->accommodation['hotel_name'] }}</p>
-                    @endif
-                  @elseif($currentDate->eq($itinerary->end_date))
-                    <p>🏨 Check-out</p>
-                    <p>✈️ Departure from {{ $itinerary->destination }}</p>
-                  @else
-                    <p>📍 Explore {{ $itinerary->destination }}</p>
-                    @if($itinerary->activities && isset($itinerary->activities[$dayNumber - 2]))
-                      <p>🎯 {{ $itinerary->activities[$dayNumber - 2]['name'] ?? 'Planned activities' }}</p>
-                    @endif
-                  @endif
-                </div>
-              </div>
+          <!-- Day Card -->
+          <div class="bg-gradient-to-r from-blue-50 to-white p-5 rounded-2xl shadow-md hover:shadow-xl transition transform group-hover:-translate-y-1">
+            <div class="flex justify-between items-center mb-3">
+              <h4 class="font-semibold text-gray-800 text-lg">Day {{ $day['day'] }}</h4>
+              <span class="text-sm text-gray-500">
+                {{ \Carbon\Carbon::parse($day['date'])->format('l, M d, Y') }}
+              </span>
             </div>
-            
-            @php
-              $currentDate->addDay();
-              $dayNumber++;
-            @endphp
-          @endwhile
+
+            <div class="bg-white p-4 rounded-lg border-l-4 border-blue-400">
+              <p class="text-gray-700 whitespace-pre-line leading-relaxed">
+                {{ $day['activities'] ?? 'No activities planned for this day.' }}
+              </p>
+            </div>
+          </div>
         </div>
-      </div>
+      @endforeach
+    </div>
+  @else
+    <!-- Fallback to auto-generated timeline if no manual timeline exists -->
+    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+      <p class="text-sm text-yellow-800">
+        ⚠️ No manual day-by-day plan was created. Showing auto-generated timeline:
+      </p>
+    </div>
+    
+    <div class="relative border-l-4 border-gray-400 pl-8 space-y-8">
+      @php
+        $currentDate = $itinerary->start_date->copy();
+        $dayNumber = 1;
+      @endphp
+      
+      @while($currentDate->lte($itinerary->end_date))
+        <div class="relative group">
+          <div class="absolute -left-9 w-6 h-6 bg-gray-400 rounded-full border-4 border-white shadow-lg"></div>
+          
+          <div class="bg-gray-50 p-5 rounded-2xl shadow-md">
+            <div class="flex justify-between items-center mb-3">
+              <h4 class="font-semibold text-gray-800 text-lg">Day {{ $dayNumber }}</h4>
+              <span class="text-sm text-gray-500">{{ $currentDate->format('l, M d, Y') }}</span>
+            </div>
 
-      <!-- Additional Notes -->
-      @if($itinerary->notes)
-      <div class="bg-yellow-50 border-l-4 border-yellow-500 shadow-md rounded-2xl p-6 mb-6">
-        <h3 class="text-xl font-bold text-gray-800 mb-4">Additional Notes</h3>
-        <p class="text-gray-700 whitespace-pre-line">{{ $itinerary->notes }}</p>
-      </div>
-      @endif
+            <div class="space-y-2 text-gray-700 text-sm">
+              @if($dayNumber == 1)
+                <p>✈️ Arrival in {{ $itinerary->destination }}</p>
+                @if(isset($itinerary->accommodation[0]))
+                  <p>🏨 Check-in at {{ $itinerary->accommodation[0]['hotel_name'] ?? 'Hotel' }}</p>
+                @endif
+              @elseif($currentDate->eq($itinerary->end_date))
+                @if(isset($itinerary->accommodation[$dayNumber - 2]))
+                  <p>🏨 Check-out from {{ $itinerary->accommodation[$dayNumber - 2]['hotel_name'] ?? 'Hotel' }}</p>
+                @endif
+                <p>✈️ Departure from {{ $itinerary->destination }}</p>
+              @else
+                <p>📍 Explore {{ $itinerary->destination }}</p>
+                @if(isset($itinerary->accommodation[$dayNumber - 1]))
+                  <p>🏨 Stay at {{ $itinerary->accommodation[$dayNumber - 1]['hotel_name'] ?? 'Hotel' }}</p>
+                @endif
+              @endif
+            </div>
+          </div>
+        </div>
 
-      <!-- Action Buttons -->
-      <div class="flex gap-4">
-        <button onclick="window.print()" 
-                class="flex-1 bg-blue-600 text-white py-3 px-6 rounded-xl hover:bg-blue-700 transition font-semibold">
-          🖨️ Print Itinerary
-        </button>
-        <a href="{{ route('itinerary.edit', $itinerary->id) }}" 
-           class="flex-1 bg-green-600 text-white py-3 px-6 rounded-xl hover:bg-green-700 transition font-semibold text-center">
-          ✏️ Edit Itinerary
-        </a>
-        <form action="{{ route('itinerary.delete', $itinerary->id) }}" method="POST" 
-              onsubmit="return confirm('Are you sure you want to delete this itinerary? This action cannot be undone.')" 
-              class="flex-1">
-          @csrf
-          @method('DELETE')
-          <button type="submit" 
-                  class="w-full bg-red-600 text-white py-3 px-6 rounded-xl hover:bg-red-700 transition font-semibold">
-            🗑️ Delete Itinerary
-          </button>
-        </form>
-      </div>
+        @php
+          $currentDate->addDay();
+          $dayNumber++;
+        @endphp
+      @endwhile
+    </div>
+  @endif
+</div>
+
+<!-- Additional Notes -->
+@if($itinerary->notes)
+<div class="bg-yellow-50 border-l-4 border-yellow-500 shadow-md rounded-2xl p-6 mb-6">
+  <h3 class="text-xl font-bold text-gray-800 mb-4">Additional Notes</h3>
+  <p class="text-gray-700 whitespace-pre-line">{{ $itinerary->notes }}</p>
+</div>
+@endif
+
+<!-- Action Buttons -->
+<div class="flex flex-col md:flex-row gap-4 mb-8">
+  <button onclick="window.print()" 
+          class="flex-1 flex justify-center items-center gap-2 bg-blue-600 text-white py-3 px-6 rounded-xl hover:bg-blue-700 transition font-semibold">
+     Print Itinerary
+  </button>
+  <a href="{{ route('itinerary.edit', $itinerary->id) }}" 
+     class="flex-1 flex justify-center items-center gap-2 bg-green-600 text-white py-3 px-6 rounded-xl hover:bg-green-700 transition font-semibold">
+     Edit Itinerary
+  </a>
+  <form action="{{ route('itinerary.delete', $itinerary->id) }}" method="POST" 
+        onsubmit="return confirm('Are you sure you want to delete this itinerary? This action cannot be undone.')" 
+        class="flex-1">
+    @csrf
+    @method('DELETE')
+    <button type="submit" 
+            class="flex w-full justify-center items-center gap-2 bg-red-600 text-white py-3 px-6 rounded-xl hover:bg-red-700 transition font-semibold">
+      Delete Itinerary
+    </button>
+  </form>
+</div>
+
 
     </div>
   </main>
